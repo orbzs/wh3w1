@@ -1,4 +1,5 @@
-export default function List({ row }: any) {
+"use client";
+export default function List({ row, deleteList }: any) {
   return (
     <div className="flex justify-evenly">
       <div
@@ -8,7 +9,15 @@ export default function List({ row }: any) {
         {row.number}
       </div>
       <div>{row.content}</div>
-      <button className="bg-green-300">刪除</button>
+      <button
+        type="button"
+        className="bg-green-300"
+        onClick={() => {
+          deleteList(row.id);
+        }}
+      >
+        刪除
+      </button>
     </div>
   );
 }
