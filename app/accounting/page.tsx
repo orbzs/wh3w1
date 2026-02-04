@@ -4,10 +4,17 @@ import Link from "next/link";
 import Form from "./component/Form";
 import List from "./component/List";
 
+type RowsType = "expense" | "income";
+
+interface Row {
+  type: RowsType;
+  number: string;
+  content: string;
+  id: number;
+}
+
 export default function Home() {
-  const [rows, setRows] = useState([
-    { type: "expense", number: "100", content: "吃飯", id: Math.random() },
-  ]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。
+  const [rows, setRows] = useState<Row[]>([]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。
 
   const addList = (row: any) => {
     console.log(`row: ${row}`);
