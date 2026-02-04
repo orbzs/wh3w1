@@ -63,7 +63,9 @@ export default function Form({ addList }: any) {
         <input
           type="text"
           placeholder="金額"
-          value={number} //子元件設定一個{value: expense}props，等於input({value: expense})
+          value={
+            type === "expense" ? -Math.abs(Number(number)) : Number(number)
+          } //子元件設定一個{value: number}props，等於input({value: number})
           onChange={(e) => {
             setNumber(e.target.value);
           }}
