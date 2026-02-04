@@ -5,7 +5,7 @@ export default function List({ row, deleteList }: any) {
       <div
         className={row.type === "expense" ? "text-red-900" : "text-green-800"}
       >
-        {/* {row.type === "expense" ? "-" : "+"} */}
+        {row.type === "expense" ? "-" : "+"}
         {row.number}
       </div>
       <div>{row.content}</div>
