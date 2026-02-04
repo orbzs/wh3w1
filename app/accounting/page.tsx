@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import Form from "./component/Form";
 import List from "./component/List";
 
@@ -13,16 +14,23 @@ export default function Home() {
     setRows([...rows, { ...row, id: Math.random() }]);
   };
 
+  const deleteList = (id: any) => {
+    setRows(
+      rows.filter((row) => {
+        return row.id !== id;
+      }),
+    );
+  };
+
   return (
     <div className="">
       <main className="flex items-center justify-center flex-col">
         <div className="">記帳小工具</div>
         <div>
           <Form addList={addList} />
-
           {rows.map((row) => {
             console.log(row);
-            return <List row={row} key={row.id} />;
+            return <List row={row} key={row.id} deleteList={deleteList} />;
           })}
           {/* 看不懂
           {rows.map(() => {
@@ -31,7 +39,7 @@ export default function Home() {
         </div>
         <div>小計</div>
         <div>
-          <a href="/">返回首頁</a>
+          <Link href="/">返回首頁</Link>
         </div>
       </main>
     </div>
