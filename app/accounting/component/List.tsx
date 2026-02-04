@@ -1,5 +1,20 @@
 "use client";
-export default function List({ row, deleteList }: any) {
+
+type RowsType = "expense" | "income";
+
+interface Row {
+  type: RowsType;
+  number: string;
+  content: string;
+  id: number;
+}
+
+interface ListsProp {
+  row: Row;
+  deleteList: (id: number) => void;
+}
+
+export default function List({ row, deleteList }: ListsProp) {
   return (
     <div className="flex justify-evenly">
       <div

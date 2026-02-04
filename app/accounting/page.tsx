@@ -13,15 +13,17 @@ interface Row {
   id: number;
 }
 
+type NewRow = Omit<Row, "id">;
+
 export default function Home() {
   const [rows, setRows] = useState<Row[]>([]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。
 
-  const addList = (row: any) => {
+  const addList = (row: NewRow) => {
     console.log(`row: ${row}`);
     setRows([...rows, { ...row, id: Math.random() }]);
   };
 
-  const deleteList = (id: any) => {
+  const deleteList = (id: number) => {
     setRows(
       rows.filter((row) => {
         return row.id !== id;
