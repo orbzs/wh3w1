@@ -3,7 +3,19 @@ import { useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-export default function Form({ addList }: any) {
+type RowsType = "expense" | "income";
+
+interface NewRow {
+  type: RowsType;
+  number: string;
+  content: string;
+}
+
+interface FormProps {
+  addList: (row: NewRow) => void;
+}
+
+export default function Form({ addList }: FormProps) {
   const [type, setType] = useState<"expense" | "income">("expense");
   const [number, setNumber] = useState<string>(""); //讓父元件把資料傳給子元件
   const [content, setContent] = useState<string>(""); //現在有變數expense跟content
