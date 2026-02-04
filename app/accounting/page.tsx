@@ -1,11 +1,37 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import Form from "./component/Form";
+import List from "./component/List";
 
 export default function Home() {
+  const [rows, setRows] = useState([
+    { type: "expense", number: "100", content: "吃飯", id: Math.random() },
+  ]);
+
+  const addList = (row: any) => {
+    console.log(`row: ${row}`);
+    setRows([...rows, { ...row, id: Math.random() }]);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          記帳小工具
+    <div className="">
+      <main className="flex items-center justify-center flex-col">
+        <div className="">記帳小工具</div>
+        <div>
+          <Form addList={addList} />
+
+          {rows.map((row) => {
+            console.log(row);
+            return <List row={row} key={row.id} />;
+          })}
+          {/* 看不懂
+          {rows.map(() => {
+            return <List />;
+          })} */}
+        </div>
+        <div>小計</div>
+        <div>
+          <a href="/">返回首頁</a>
         </div>
       </main>
     </div>
