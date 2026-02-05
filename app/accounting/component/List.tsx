@@ -1,14 +1,6 @@
 "use client";
 
-type RowsType = "expense" | "income";
-
-interface Row {
-  type: RowsType;
-  number: string;
-  content: string;
-  id: number;
-}
-
+import { Row } from "../types";
 interface ListsProp {
   row: Row;
   deleteList: (id: number) => void;
@@ -16,22 +8,24 @@ interface ListsProp {
 
 export default function List({ row, deleteList }: ListsProp) {
   return (
-    <div className="flex justify-evenly">
+    <div className="flex justify-center gap-6 w-full mt-2">
       <div
-        className={row.type === "expense" ? "text-red-900" : "text-green-800"}
+        className={`w-3/12 border-r-2 border-l-2 rounded-[16px] px-3  ${row.type === "expense" ? "border-0" : "border-0"}`}
       >
         {row.type === "expense" ? "-" : "+"}
-        {row.number}
+        {row.amount}
       </div>
-      <div>{row.content}</div>
+      <div className="w-5/12 border-r-2 border-l-2 rounded-[16px] px-3 ">
+        {row.content}
+      </div>
       <button
         type="button"
-        className="bg-green-300"
+        className="w-1/12 border-r-2 border-l-2 rounded-[16px]"
         onClick={() => {
           deleteList(row.id);
         }}
       >
-        刪除
+        x
       </button>
     </div>
   );
