@@ -1,14 +1,6 @@
 "use client";
 
-type RowsType = "expense" | "income";
-
-interface Row {
-  type: RowsType;
-  amount: number;
-  content: string;
-  id: number;
-}
-
+import { Row } from "../types";
 interface ListsProp {
   row: Row;
   deleteList: (id: number) => void;

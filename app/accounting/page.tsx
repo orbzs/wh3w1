@@ -4,16 +4,8 @@ import Link from "next/link";
 import Form from "./component/Form";
 import List from "./component/List";
 
-type RowsType = "expense" | "income";
-
-interface Row {
-  type: RowsType;
-  amount: number;
-  content: string;
-  id: number;
-}
-
-type NewRow = Omit<Row, "id">;
+import { Row } from "./types";
+import { NewRow } from "./types";
 
 export default function Home() {
   const [rows, setRows] = useState<Row[]>([]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。

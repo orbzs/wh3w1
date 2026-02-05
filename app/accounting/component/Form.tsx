@@ -3,14 +3,7 @@ import { useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-type RowsType = "expense" | "income";
-
-interface NewRow {
-  type: RowsType;
-  amount: number;
-  content: string;
-}
-
+import { NewRow } from "../types";
 interface FormProps {
   addList: (row: NewRow) => void;
 }
