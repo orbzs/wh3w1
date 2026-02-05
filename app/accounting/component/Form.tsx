@@ -17,8 +17,8 @@ interface FormProps {
 
 export default function Form({ addList }: FormProps) {
   const [type, setType] = useState<"expense" | "income">("expense");
-  const [number, setNumber] = useState<string>(""); //讓父元件把資料傳給子元件
-  const [content, setContent] = useState<string>(""); //現在有變數expense跟content
+  const [amountString, setAmount] = useState<string>(""); //讓父元件把資料傳給子元件
+  const [content, setContent] = useState<string>(""); //現在有變數amountString跟content
 
   const setExButton = () => {
     setType("expense");
@@ -27,13 +27,29 @@ export default function Form({ addList }: FormProps) {
     setType("income");
   };
 
-  const amount = Number(number);
+  // 直接控制正整數以外不要出現在input
+  const handleChange: React.ComponentProps<"input">["onChange"] = (e) => {
+    const newAmStValue = e.target.value;
+    const re = /^[1-9]\d*$/;
+    if (newAmStValue === "" || re.test(newAmStValue)) {
+      setAmount(newAmStValue);
+    }
+  };
+
+  const amount = Number(amountString);
 
   const handleSubmit: React.ComponentProps<"form">["onSubmit"] = (e) => {
     e.preventDefault();
-    addList({ type, amount, content }); //包成物件讓page可以用addList(row){setRows([...rows, { ...row, id: Math.random() }]);}
-    setNumber("");
-    setContent("");
+    if (amountString.trim().length === 0 || content.trim().length === 0) {
+      return;
+    } else if (!Number.isInteger(amount) || Number(amountString) <= 0) {
+      console.log("not integer or smaller than 0");
+      return;
+    } else {
+      addList({ type, amount, content }); //包成物件讓page可以用addList(row){setRows([...rows, { ...row, id: Math.random() }]);}
+      setAmount("");
+      setContent("");
+    }
   };
 
   return (
@@ -77,15 +93,14 @@ export default function Form({ addList }: FormProps) {
         <input
           type="text"
           placeholder="金額"
-          value={number} //子元件設定一個{value: expense}props，等於input({value: number})
+          value={amountString} //子元件設定一個{value: amountString}props，等於input({value: amountString})
           //   不好的寫法
           //   value={
-          //     type === "expense" ? -Math.abs(Number(number)) : Number(number)
+          //     type === "expense" ? -Math.abs(Number(amountString)) : Number(amountString)
           //   }
-          onChange={(e) => {
-            setNumber(e.target.value);
-          }}
+          onChange={handleChange}
           inputMode="numeric"
+          required
         />
 
         <input
@@ -95,6 +110,7 @@ export default function Form({ addList }: FormProps) {
           onChange={(e) => {
             setContent(e.target.value);
           }}
+          required
         />
 
         <button type="submit" className="bg-green-300">
