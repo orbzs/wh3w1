@@ -7,7 +7,7 @@ type RowsType = "expense" | "income";
 
 interface NewRow {
   type: RowsType;
-  number: string;
+  amount: number;
   content: string;
 }
 
@@ -20,16 +20,18 @@ export default function Form({ addList }: FormProps) {
   const [number, setNumber] = useState<string>(""); //讓父元件把資料傳給子元件
   const [content, setContent] = useState<string>(""); //現在有變數expense跟content
 
-  const setExButton = (e: any) => {
+  const setExButton = () => {
     setType("expense");
   };
-  const setInButton = (e: any) => {
+  const setInButton = () => {
     setType("income");
   };
 
-  const handleSubmit = (e: any) => {
+  const amount = Number(number);
+
+  const handleSubmit: React.ComponentProps<"form">["onSubmit"] = (e) => {
     e.preventDefault();
-    addList({ type, number, content }); //包成物件讓page可以用addList(row){setRows([...rows, { ...row, id: Math.random() }]);}
+    addList({ type, amount, content }); //包成物件讓page可以用addList(row){setRows([...rows, { ...row, id: Math.random() }]);}
     setNumber("");
     setContent("");
   };

@@ -8,7 +8,7 @@ type RowsType = "expense" | "income";
 
 interface Row {
   type: RowsType;
-  number: string;
+  amount: number;
   content: string;
   id: number;
 }
@@ -20,7 +20,10 @@ export default function Home() {
 
   const addList = (row: NewRow) => {
     console.log(`row: ${row}`);
-    setRows([...rows, { ...row, id: Math.random() }]);
+    console.log(`rows: ${rows}`);
+    setRows((rows) => [...rows, { ...row, id: Math.random() }]);
+    // setRows([...rows, { ...row, id: Math.random() }]);可能會讀到舊值>>stale state
+    // 改成functional updater
   };
 
   const deleteList = (id: number) => {
@@ -39,6 +42,7 @@ export default function Home() {
           <Form addList={addList} />
           {rows.map((row) => {
             console.log(row);
+            console.log(rows);
             return <List row={row} key={row.id} deleteList={deleteList} />;
           })}
           {/* 看不懂
@@ -50,10 +54,7 @@ export default function Home() {
           小計：
           {rows.reduce((accumulator, row) => {
             return (
-              accumulator +
-              (row.type === "expense"
-                ? -Number(row.number)
-                : Number(row.number))
+              accumulator + (row.type === "expense" ? -row.amount : row.amount)
             );
           }, 0)}
         </div>

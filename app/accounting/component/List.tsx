@@ -4,7 +4,7 @@ type RowsType = "expense" | "income";
 
 interface Row {
   type: RowsType;
-  number: string;
+  amount: number;
   content: string;
   id: number;
 }
@@ -21,7 +21,7 @@ export default function List({ row, deleteList }: ListsProp) {
         className={row.type === "expense" ? "text-red-900" : "text-green-800"}
       >
         {row.type === "expense" ? "-" : "+"}
-        {row.number}
+        {row.amount}
       </div>
       <div>{row.content}</div>
       <button
