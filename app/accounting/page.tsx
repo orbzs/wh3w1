@@ -27,31 +27,42 @@ export default function Home() {
   };
 
   return (
-    <div className="">
-      <main className="flex items-center justify-center flex-col">
-        <div className="">記帳小工具</div>
-        <div>
-          <Form addList={addList} />
-          {rows.map((row) => {
-            console.log(row);
-            console.log(rows);
-            return <List row={row} key={row.id} deleteList={deleteList} />;
-          })}
-          {/* 看不懂
+    <div className="relative bg-zinc-100 w-full h-full flex flex-col justify-center items-center">
+      <main className="bg-zinc-100 w-full h-full flex justify-start gap-12 items-center flex-col ">
+        <div className="h-20 stragecolor w-full flex justify-center items-center justify-self-start">
+          記帳小工具
+        </div>
+        <div className="stragecolor p-8 min-h-80 flex justify-center items-center gap-4 flex-col">
+          <div>
+            <Form addList={addList} />
+            {rows.map((row) => {
+              console.log(row);
+              console.log(rows);
+              return <List row={row} key={row.id} deleteList={deleteList} />;
+            })}
+            {/* 看不懂
           {rows.map(() => {
             return <List />;
           })} */}
+          </div>
+          <div className="bg-zinc-400">
+            小計：
+            {rows.reduce((accumulator, row) => {
+              return (
+                accumulator +
+                (row.type === "expense" ? -row.amount : row.amount)
+              );
+            }, 0)}
+          </div>
         </div>
+
         <div>
-          小計：
-          {rows.reduce((accumulator, row) => {
-            return (
-              accumulator + (row.type === "expense" ? -row.amount : row.amount)
-            );
-          }, 0)}
-        </div>
-        <div>
-          <Link href="/">返回首頁</Link>
+          <Link
+            className="bg-zinc-200 absolute bottom-20 left-20 rounded-full"
+            href="/"
+          >
+            ← 返回首頁
+          </Link>
         </div>
       </main>
     </div>

@@ -47,7 +47,7 @@ export default function Form({ addList }: FormProps) {
 
   return (
     <div className="flex">
-      <form className="flex items-center" onSubmit={handleSubmit}>
+      <form className="flex items-center bg-zinc-300" onSubmit={handleSubmit}>
         <Menu as="div" className="relative inline-block">
           <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold  inset-ring-1 inset-ring-white/5 hover:bg-white/20">
             {type === "expense" ? "支出" : "收入"}
@@ -94,6 +94,7 @@ export default function Form({ addList }: FormProps) {
           onChange={handleChange}
           inputMode="numeric"
           required
+          className="caret-(--color-big)"
         />
 
         <input
@@ -104,10 +105,11 @@ export default function Form({ addList }: FormProps) {
             setContent(e.target.value);
           }}
           required
+          className="caret-(--color-big)"
         />
 
-        <button type="submit" className="bg-green-300">
-          新增紀錄
+        <button type="submit" className="bg-neutral-700 rounded-full">
+          +
         </button>
       </form>
     </div>
