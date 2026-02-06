@@ -29,12 +29,12 @@ export default function Home() {
   return (
     <div className="relative bg-zinc-100 w-full h-full flex flex-col justify-center items-center">
       <main className="bg-zinc-00 w-full h-full flex justify-start gap-16 items-center flex-col ">
-        <div className="text-[22px] navboxshadow h-20 stragecolor w-full flex justify-center items-center justify-self-start">
+        <div className="pt-6 font-bold text-[22px] navboxshadow h-20 stragecolor w-full flex justify-center items-center justify-self-start">
           記帳小工具
         </div>
-        <div className="overflow-y-auto rounded-[72px] stragecolor p-8 pt-10 min-h-80  min-w-80 w-13/24 flex justify-between items-center gap-3 flex-col">
+        <div className=" rounded-[72px] stragecolor p-8 pt-10 min-h-80  min-w-80 w-13/24 flex justify-between items-center gap-3 flex-col">
           <Form addList={addList} />
-          <div className="h-full flex gap-2 flex-col justify-center w-full">
+          <div className="overflow-y-auto  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full flex gap-2 flex-col justify-center w-full">
             {rows.map((row) => {
               console.log(row);
               console.log(rows);
@@ -46,7 +46,7 @@ export default function Home() {
           })} */}
           </div>
 
-          <div className="p-4">
+          <div className="py-4 font-semibold">
             小計：
             {rows.reduce((accumulator, row) => {
               return (
@@ -57,14 +57,30 @@ export default function Home() {
           </div>
         </div>
 
-        <div>
+        <div
+          className="before:absolute before:top-full before:left-0 before:h-full
+before:w-full before:bg-black before:transition-transform before:duration-500 hover:before:-translate-y-full"
+        >
           <Link
-            className="p-4 bg-zinc-200 absolute bottom-1/8 left-1/12 rounded-full"
+            className="hover:font-semibold hover:translate-y-[6px] transition-all duration-600 p-4 px-6 bg-zinc-200 absolute bottom-1/8 left-1/12 rounded-full"
             href="/"
           >
             ← 返回首頁
           </Link>
         </div>
+        <button
+          className="bg:white overflow group relative ml-5 mt-5
+overflow-hidden rounded-2xl border border-black px-4 py-2
+before:absolute before:top-full before:left-0 before:h-full
+before:w-full before:bg-black before:transition-transform before:duration-500 hover:before:-translate-y-full"
+        >
+          <span
+            className="relative z-10 block transition-colors
+  duration-300 group-hover:text-white"
+          >
+            您的文字
+          </span>
+        </button>
       </main>
     </div>
   );

@@ -52,16 +52,16 @@ export default function Form({ addList }: FormProps) {
     >
       <Menu
         as="div"
-        className="w-3/24 relative inline-block border-r-2 border-l-2 rounded-[24px] "
+        className="h-full w-3/24 text-center inline-block border-r-2 border-l-2 rounded-[24px] "
       >
-        <MenuButton className=" inline-flex w-5/4 item-center gap-x-1.5  bg-white/10 px-3 text-sm font-semibold  inset-ring-1 inset-ring-white/5 hover:text-neutral-700 h-1/2">
+        <MenuButton className="px-3 h-full justify-start inline-flex items-center gap-x-1.5  bg-white/10   font-semibold  inset-ring-1 inset-ring-white/5 hover:text-neutral-700 h-1/2">
           {type === "expense" ? "支出" : "收入"}
           <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 " />
         </MenuButton>
 
         <MenuItems
           transition
-          className="absolute -left-10 z-10 mt-2 w-32 origin-top-right rounded-[36px] bg-neutral-700 outline-1 -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+          className="absolute left-0 z-10 mt-2 w-32 origin-top-right rounded-[36px] bg-neutral-700 outline-1 -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
         >
           <div className="py-1 flex flex-col">
             <MenuItem>
@@ -96,7 +96,7 @@ export default function Form({ addList }: FormProps) {
         onChange={handleChange}
         inputMode="numeric"
         required
-        className="w-9/24 px-3 caret-(--color-big) border-r-2 border-l-2 rounded-[36px] h-22/24"
+        className="focus:border-teal focus:outline-none focus:ring-1 font-semibold w-9/24 px-3  border-r-2 border-l-2 rounded-[36px] h-22/24"
       />
 
       <input
@@ -107,15 +107,15 @@ export default function Form({ addList }: FormProps) {
           setContent(e.target.value);
         }}
         required
-        className="w-9/24 px-3 border-r-2 border-l-2 rounded-[36px] caret-(--color-big) h-22/24"
+        className="focus:border-teal focus:outline-none focus:ring-1 font-semibold w-9/24 px-3 border-r-2 border-l-2 rounded-[36px] h-22/24"
       />
 
       <button
         type="submit"
-        className="absolute flex justify-center items-center bg-neutral-700 rounded-full  w-[56px] h-[56px] -right-1 top-7 text-center
+        className="hover:translate-y-[6px] transition-all duration-400 absolute flex justify-center items-center bg-neutral-700 rounded-full  w-[56px] h-[56px] -right-1 top-7 text-center
         "
       >
-        +
+        <div className="text-2xl">+</div>
       </button>
     </form>
   );
