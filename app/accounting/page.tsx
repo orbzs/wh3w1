@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Form from "./component/Form";
 import List from "./component/List";
@@ -7,8 +7,29 @@ import List from "./component/List";
 import { Row } from "./types";
 import { NewRow } from "./types";
 
+const KEY = "accounting_rows";
+
 export default function Home() {
-  const [rows, setRows] = useState<Row[]>([]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。
+  const [rows, setRows] = useState<Row[]>([]);
+
+  // 在useState之後才用useEffect讀 localStorage，避免 hydration 失敗
+  useEffect(() => {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return;
+
+    try {
+      const data = JSON.parse(raw) as Row[];
+      //
+      if (Array.isArray(data)) setRows(data);
+    } catch {
+      setRows([]);
+    }
+  }, []);
+
+  // 2. 當 rows 變更，寫回 localStorage
+  useEffect(() => {
+    localStorage.setItem(KEY, JSON.stringify(rows));
+  }, [rows]);
 
   const addList = (row: NewRow) => {
     console.log(`row: ${row}`);
@@ -19,11 +40,12 @@ export default function Home() {
   };
 
   const deleteList = (id: number) => {
-    setRows(
+    setRows((rows) =>
       rows.filter((row) => {
         return row.id !== id;
       }),
     );
+    // functional updater
   };
 
   return (
@@ -40,10 +62,6 @@ export default function Home() {
               console.log(rows);
               return <List row={row} key={row.id} deleteList={deleteList} />;
             })}
-            {/* 看不懂
-          {rows.map(() => {
-            return <List />;
-          })} */}
           </div>
 
           <div className="py-4 font-semibold">
