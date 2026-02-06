@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="stragecolor w-full h-full flex flex-col justify-center items-center pt-12">
       <div className="w-3/5 min-h-1/3 flex flex-col justify-center items-end ">
-        <h1 className="text-pretty text-right text-6xl pb-4 pt-8 font-black">
+        <h1 className="text-pretty text-right text-6xl pb-4 pt-8 font-black ">
           React練習專案
         </h1>
         <p className="text-nowrap text-xl pb-8 font-semibold">

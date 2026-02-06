@@ -27,12 +27,12 @@ export default function Home() {
   };
 
   return (
-    <div className="relative bg-zinc-100 w-full h-full flex flex-col justify-center items-center">
-      <main className="bg-zinc-00 w-full h-full flex justify-start gap-16 items-center flex-col ">
+    <div className="bg-[linear-gradient(rgb(244,244,245)_98%,#d9ff416c)] relative bg-zinc-100 w-full h-full flex flex-col justify-center items-center">
+      <main className="  w-full h-full flex justify-start gap-16 items-center flex-col ">
         <div className="pt-6 font-bold text-[22px] navboxshadow h-20 stragecolor w-full flex justify-center items-center justify-self-start">
           記帳小工具
         </div>
-        <div className=" rounded-[72px] stragecolor p-8 pt-10 min-h-80  min-w-80 w-13/24 flex justify-between items-center gap-3 flex-col">
+        <div className="hover:translate-y-[6px] ease-in-out transition-all duration-1600 rounded-[72px] stragecolor p-8 pt-10 min-h-80  min-w-80 w-13/24 flex justify-between items-center gap-3 flex-col">
           <Form addList={addList} />
           <div className="overflow-y-auto  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full flex gap-2 flex-col justify-center w-full">
             {rows.map((row) => {
@@ -56,35 +56,16 @@ export default function Home() {
             }, 0)}
           </div>
         </div>
-        <div className=" absolute bottom-1/8 left-1/12  hover:translate-y-[6px] transition-all duration-400">
+        <div className="absolute bottom-1/8 left-1/12  hover:translate-y-[6px] transition-all ease-[cubic-bezier(0.4, 0, 1, 1)] duration-800 hover:text-zinc-300 hover:font-black ">
           <div
             className="bg-zinc-200 overflow group relative overflow-hidden rounded-full p-6 before:absolute before:top-full before:left-0 before:h-full
-before:w-full before:bg-black before:transition-transform before:duration-500 hover:before:-translate-y-full
+before:w-full before:bg-neutral-800 before:transition-transform before:ease-in before:duration-500 hover:before:-translate-y-full
 "
           >
-            <Link
-              className="relative z-9 hover:font-semibold hover:translate-y-[6px] transition-all duration-200 p-4 px-6 "
-              href="/"
-            >
+            <Link className="relative z-9 p-4 px-6 " href="/">
               ← 返回首頁
             </Link>
           </div>
-        </div>
-
-        <div className="absolute bottom-5/8 left-1/12 w-1/3">
-          <button
-            className="bg-zinc-200 overflow group relative 
- rounded-2xl  px-4 py-2
-before:absolute before:top-full before:left-0 before:h-full
-before:w-full before:bg-black before:transition-transform before:duration-500 hover:before:-translate-y-full"
-          >
-            <span
-              className="relative z-10 block transition-colors
-  duration-300 group-hover:text-white"
-            >
-              您的文字
-            </span>
-          </button>
         </div>
       </main>
     </div>

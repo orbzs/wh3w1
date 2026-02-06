@@ -52,9 +52,9 @@ export default function Form({ addList }: FormProps) {
     >
       <Menu
         as="div"
-        className="h-full w-3/24 text-center inline-block border-r-2 border-l-2 rounded-[24px] "
+        className=" hover:text-neutral-600 transition-all duration-400 h-full w-3/24 min-w-[84px] text-center inline-block border-r-2 border-l-2 rounded-[24px] "
       >
-        <MenuButton className="px-3 h-full justify-start inline-flex items-center gap-x-1.5  bg-white/10   font-semibold  inset-ring-1 inset-ring-white/5 hover:text-neutral-700 h-1/2">
+        <MenuButton className="cursor-pointer px-3 h-full justify-start inline-flex items-center gap-x-1.5 font-semibold inset-ring-1 inset-ring-white/5">
           {type === "expense" ? "支出" : "收入"}
           <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 " />
         </MenuButton>
@@ -67,7 +67,7 @@ export default function Form({ addList }: FormProps) {
             <MenuItem>
               <button
                 type="button"
-                className="h-full block px-4 py-2 text-sm text-gray-300  data-focus:text-white data-focus:outline-hidden"
+                className="hover:translate-x-[2px] transition-all duration-200 h-full block px-4 py-2 font-semibold text-zinc-300  data-focus:text-zinc-50 data-focus:outline-hidden"
                 onClick={setExButton}
               >
                 支出
@@ -76,7 +76,7 @@ export default function Form({ addList }: FormProps) {
             <MenuItem>
               <button
                 type="button"
-                className="h-full block px-4 py-2 text-sm text-gray-300  data-focus:text-white data-focus:outline-hidden"
+                className="hover:translate-x-[2px] transition-all duration-200 h-full block px-4 py-2 font-semibold text-zinc-300  data-focus:text-zinc-50 data-focus:outline-hidden"
                 onClick={setInButton}
               >
                 收入
@@ -96,7 +96,7 @@ export default function Form({ addList }: FormProps) {
         onChange={handleChange}
         inputMode="numeric"
         required
-        className="focus:border-teal focus:outline-none focus:ring-1 font-semibold w-9/24 px-3  border-r-2 border-l-2 rounded-[36px] h-22/24"
+        className="hover:text-neutral-600 transition-all duration-400 focus:border-teal focus:outline-none focus:ring-1 font-semibold w-9/24 px-3  border-r-2 border-l-2 rounded-[36px] h-22/24"
       />
 
       <input
@@ -107,12 +107,12 @@ export default function Form({ addList }: FormProps) {
           setContent(e.target.value);
         }}
         required
-        className="focus:border-teal focus:outline-none focus:ring-1 font-semibold w-9/24 px-3 border-r-2 border-l-2 rounded-[36px] h-22/24"
+        className="hover:text-neutral-600 transition-all duration-400 focus:border-teal focus:outline-none focus:ring-1 font-semibold w-9/24 px-3 border-r-2 border-l-2 rounded-[36px] h-22/24"
       />
 
       <button
         type="submit"
-        className="hover:translate-y-[6px] transition-all duration-400 absolute flex justify-center items-center bg-neutral-700 rounded-full  w-[56px] h-[56px] -right-1 top-7 text-center
+        className="text-zinc-300 cursor-pointer hover:translate-y-[4px] transition-all duration-400 absolute flex justify-center items-center bg-neutral-700 rounded-full  w-[56px] h-[56px] -right-1 top-7 text-center
         "
       >
         <div className="text-2xl">+</div>

@@ -8,7 +8,9 @@ interface ListsProp {
 
 export default function List({ row, deleteList }: ListsProp) {
   return (
-    <div className="hover:translate-x-[8px] transition-all duration-200 flex justify-center gap-6 w-full mt-2">
+    <div
+      className={`hover:translate-x-[10px] hover:text-neutral-500 transition-all duration-200 flex justify-center gap-6 w-full mt-2  ${row.type === "expense" ? "hover:text-neutral-500" : "hover:border-0"}`}
+    >
       <div
         className={`overflow-hidden text-ellipsis w-3/12 border-r-2 border-l-2 rounded-[16px] px-3  ${row.type === "expense" ? "border-0" : "border-0"}`}
       >
@@ -20,7 +22,7 @@ export default function List({ row, deleteList }: ListsProp) {
       </div>
       <button
         type="button"
-        className="w-1/12 border-r-2 border-l-2 rounded-[16px]"
+        className="hover:translate-x-[8px] hover:text-neutral-600 transition ease-in duration-200 cursor-pointer w-1/12 border-r-2 border-l-2 rounded-[16px]"
         onClick={() => {
           deleteList(row.id);
         }}
