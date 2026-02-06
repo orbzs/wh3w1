@@ -56,31 +56,36 @@ export default function Home() {
             }, 0)}
           </div>
         </div>
-
-        <div
-          className="before:absolute before:top-full before:left-0 before:h-full
-before:w-full before:bg-black before:transition-transform before:duration-500 hover:before:-translate-y-full"
-        >
-          <Link
-            className="hover:font-semibold hover:translate-y-[6px] transition-all duration-600 p-4 px-6 bg-zinc-200 absolute bottom-1/8 left-1/12 rounded-full"
-            href="/"
+        <div className=" absolute bottom-1/8 left-1/12  hover:translate-y-[6px] transition-all duration-400">
+          <div
+            className="bg-zinc-200 overflow group relative overflow-hidden rounded-full p-6 before:absolute before:top-full before:left-0 before:h-full
+before:w-full before:bg-black before:transition-transform before:duration-500 hover:before:-translate-y-full
+"
           >
-            ← 返回首頁
-          </Link>
+            <Link
+              className="relative z-9 hover:font-semibold hover:translate-y-[6px] transition-all duration-200 p-4 px-6 "
+              href="/"
+            >
+              ← 返回首頁
+            </Link>
+          </div>
         </div>
-        <button
-          className="bg:white overflow group relative ml-5 mt-5
-overflow-hidden rounded-2xl border border-black px-4 py-2
+
+        <div className="absolute bottom-5/8 left-1/12 w-1/3">
+          <button
+            className="bg-zinc-200 overflow group relative 
+ rounded-2xl  px-4 py-2
 before:absolute before:top-full before:left-0 before:h-full
 before:w-full before:bg-black before:transition-transform before:duration-500 hover:before:-translate-y-full"
-        >
-          <span
-            className="relative z-10 block transition-colors
-  duration-300 group-hover:text-white"
           >
-            您的文字
-          </span>
-        </button>
+            <span
+              className="relative z-10 block transition-colors
+  duration-300 group-hover:text-white"
+            >
+              您的文字
+            </span>
+          </button>
+        </div>
       </main>
     </div>
   );
