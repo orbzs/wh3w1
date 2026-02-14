@@ -47,27 +47,27 @@ export default function Form({ addList }: FormProps) {
 
   return (
     <form
-      className="h-3/24 relative border-b-2 flex gap-4 justify-center items-center w-full min-h-[48px] pb-3"
+      className="relative flex h-3/24 min-h-[48px] w-full items-center justify-center gap-4 border-b-2 pb-3"
       onSubmit={handleSubmit}
     >
       <Menu
         as="div"
-        className=" hover:text-neutral-600 transition-all duration-400 h-full w-3/24 min-w-[84px] text-center inline-block border-r-2 border-l-2 rounded-[24px] "
+        className="inline-block h-full w-3/24 min-w-[84px] rounded-[24px] border-r-2 border-l-2 text-center transition-all duration-400 hover:text-neutral-600"
       >
-        <MenuButton className="cursor-pointer px-3 h-full justify-start inline-flex items-center gap-x-1.5 font-semibold inset-ring-1 inset-ring-white/5">
+        <MenuButton className="inline-flex h-full cursor-pointer items-center justify-start gap-x-1.5 px-3 font-semibold inset-ring-1 inset-ring-white/5">
           {type === "expense" ? "支出" : "收入"}
-          <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 " />
+          <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5" />
         </MenuButton>
 
         <MenuItems
           transition
           className="absolute left-0 z-10 mt-2 w-32 origin-top-right rounded-[36px] bg-neutral-700 outline-1 -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
         >
-          <div className="py-1 flex flex-col">
+          <div className="flex flex-col py-1">
             <MenuItem>
               <button
                 type="button"
-                className="hover:translate-x-[2px] transition-all duration-200 h-full block px-4 py-2 font-semibold text-zinc-300  data-focus:text-zinc-50 data-focus:outline-hidden"
+                className="block h-full px-4 py-2 font-semibold text-zinc-300 transition-all duration-200 hover:translate-x-[2px] data-focus:text-zinc-50 data-focus:outline-hidden"
                 onClick={setExButton}
               >
                 支出
@@ -76,7 +76,7 @@ export default function Form({ addList }: FormProps) {
             <MenuItem>
               <button
                 type="button"
-                className="hover:translate-x-[2px] transition-all duration-200 h-full block px-4 py-2 font-semibold text-zinc-300  data-focus:text-zinc-50 data-focus:outline-hidden"
+                className="block h-full px-4 py-2 font-semibold text-zinc-300 transition-all duration-200 hover:translate-x-[2px] data-focus:text-zinc-50 data-focus:outline-hidden"
                 onClick={setInButton}
               >
                 收入
@@ -96,7 +96,7 @@ export default function Form({ addList }: FormProps) {
         onChange={handleChange}
         inputMode="numeric"
         required
-        className="hover:text-neutral-600 transition-all duration-400 focus:border-teal focus:outline-none focus:ring-1 font-semibold w-9/24 px-3  border-r-2 border-l-2 rounded-[36px] h-22/24"
+        className="focus:border-teal h-22/24 w-9/24 rounded-[36px] border-r-2 border-l-2 px-3 font-semibold transition-all duration-400 hover:text-neutral-600 focus:ring-1 focus:outline-none"
       />
 
       <input
@@ -107,13 +107,12 @@ export default function Form({ addList }: FormProps) {
           setContent(e.target.value);
         }}
         required
-        className="hover:text-neutral-600 transition-all duration-400 focus:border-teal focus:outline-none focus:ring-1 font-semibold w-9/24 px-3 border-r-2 border-l-2 rounded-[36px] h-22/24"
+        className="focus:border-teal h-22/24 w-9/24 rounded-[36px] border-r-2 border-l-2 px-3 font-semibold transition-all duration-400 hover:text-neutral-600 focus:ring-1 focus:outline-none"
       />
 
       <button
         type="submit"
-        className="text-zinc-300 cursor-pointer hover:translate-y-[4px] transition-all duration-400 absolute flex justify-center items-center bg-neutral-700 rounded-full  w-[56px] h-[56px] -right-1 top-7 text-center
-        "
+        className="absolute top-7 -right-1 flex h-[56px] w-[56px] cursor-pointer items-center justify-center rounded-full bg-neutral-700 text-center text-zinc-300 transition-all duration-400 hover:translate-y-[4px]"
       >
         <div className="text-2xl">+</div>
       </button>
