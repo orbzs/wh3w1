@@ -1,95 +1,123 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Form from "./component/Form";
 import List from "./component/List";
 import Logout from "./component/Logout";
-import { onAuthStateChanged, type User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   doc,
+  getDoc,
   getDocs,
   addDoc,
   collection,
   serverTimestamp,
+  deleteDoc,
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-import { Row } from "./types";
-import { NewRow } from "./types";
+import { Row, NewRow } from "./types";
 
 export default function Home() {
+  const [rows, setRows] = useState<Row[]>([]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。
+  const [displayName, setDisplayName] = useState<string>("");
+
   // 驗證
   const router = useRouter();
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        console.log("please login or signup");
+        router.push("/");
+        return;
+      }
 
-  const [rows, setRows] = useState<Row[]>([]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      console.log("please login or signup");
-      router.push("/");
-    } else {
       console.log("user.uid: ", user.uid);
-      // const querySnapshot = await getDocs(
-      //   collection(db, "users", user.uid, "transactions"),
-      // );
-      // // 1
-      // querySnapshot.forEach((doc) => {
-      //   console.log(doc.id, " => ", doc.data());
-      // });
-      // // 2
-      // querySnapshot.forEach((docSnap) => {
-      //   const data = docSnap.data();
-      //   const row = { id: docSnap.id, ...data };
-      //   console.log(row);
-      // });
-      // // 3
-      // console.log("querySnapshot.docs =>", querySnapshot.docs);
-      // const rows = querySnapshot.docs.map((docSnap) => ({
-      //   id: docSnap.id,
-      //   ...docSnap.data(),
-      // }));
-      // console.log(rows);
-    }
-  });
 
-  const addList = (row: NewRow) => {
+      const snap = await getDoc(doc(db, "users", user.uid));
+      setDisplayName(snap.data()!.name);
+
+      const querySnapshot = await getDocs(
+        collection(db, "users", user.uid, "transactions"),
+      );
+
+      const fetchedRows: Row[] = querySnapshot.docs.map((docSnap) => {
+        const data = docSnap.data() as Omit<Row, "id">; // type/amount/content
+        return {
+          id: docSnap.id,
+          ...data,
+        };
+      });
+
+      setRows(fetchedRows);
+    });
+  }, []);
+
+  const addList = async (row: NewRow) => {
     console.log(`row: ${row}`);
     console.log(`rows: ${rows}`);
-    setRows((rows) => [...rows, { ...row, id: Math.random() }]);
+
+    const user = auth.currentUser;
+    if (!user) {
+      console.log("no user, cannot add");
+      router.push("/");
+      return;
+    }
+
+    const docRef = await addDoc(
+      collection(db, "users", user.uid, "transactions"),
+      {
+        ...row,
+        createdAt: serverTimestamp(),
+      },
+    );
+
+    setRows((rows) => [...rows, { ...row, id: docRef.id }]);
+    // setRows((rows) => [...rows, { ...row, id: Math.random() }]);
     // setRows([...rows, { ...row, id: Math.random() }]);可能會讀到舊值>>stale state
     // 改成functional updater
 
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     addDoc(collection(db, "users", user.uid, "transactions"), {
-    //       ...row,
-    //       createdAt: serverTimestamp(),
-    //     });
-    //     console.log("add row at:", serverTimestamp);
-    //   }
-    // });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        addDoc(collection(db, "users", user.uid, "transactions"), {
+          ...row,
+          createdAt: serverTimestamp(),
+        });
+        console.log("add row at:", serverTimestamp);
+      }
+    });
   };
 
-  const deleteList = (id: number) => {
-    setRows(
-      rows.filter((row) => {
-        return row.id !== id;
-      }),
-    );
+  const deleteList = async (id: string) => {
+    const user = auth.currentUser;
+    if (!user) {
+      console.log("no user, cannot delete");
+      router.push("/");
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "transactions", id));
+      setRows((rows) => rows.filter((row) => row.id !== id));
+      console.log("deleted:", id);
+    } catch (error) {
+      if (error instanceof Error) console.log(error.message);
+      else console.log(error);
+    }
   };
 
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center bg-zinc-100 bg-[linear-gradient(rgb(244,244,245)_98%,#d9ff416c)]">
       <main className="flex h-full w-full flex-col items-center justify-start gap-16">
         <div className="navboxshadow stragecolor flex h-20 w-full items-center justify-center justify-self-start pt-6 text-[22px] font-bold">
-          記帳小工具
+          您好，{displayName}！
         </div>
         <div className="stragecolor flex min-h-80 w-13/24 min-w-80 flex-col items-center justify-between gap-3 rounded-[72px] p-8 pt-10 transition-all duration-1600 ease-in-out hover:translate-y-[6px]">
           <Form addList={addList} />
           <div className="flex h-full w-full flex-col justify-center gap-2 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {rows.map((row) => {
-              console.log(row);
-              console.log(rows);
+              // console.log(row);
+              // console.log(rows);
               return <List row={row} key={row.id} deleteList={deleteList} />;
             })}
           </div>

@@ -4,7 +4,7 @@ export interface Row {
   type: RowsType;
   amount: number;
   content: string;
-  id: number;
+  id: string;
 }
 
 export type NewRow = Omit<Row, "id">;

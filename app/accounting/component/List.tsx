@@ -3,7 +3,7 @@
 import { Row } from "../types";
 interface ListsProp {
   row: Row;
-  deleteList: (id: number) => void;
+  deleteList: (id: string) => void;
 }
 
 export default function List({ row, deleteList }: ListsProp) {
