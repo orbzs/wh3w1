@@ -18,6 +18,8 @@ import { auth, db } from "../firebase";
 
 import { Row, NewRow } from "./types";
 
+const KEY = "accounting_rows";
+
 export default function Home() {
   const [rows, setRows] = useState<Row[]>([]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。
   const [displayName, setDisplayName] = useState<string>("");
