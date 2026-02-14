@@ -54,9 +54,6 @@ export default function Home() {
   }, []);
 
   const addList = async (row: NewRow) => {
-    console.log(`row: ${row}`);
-    console.log(`rows: ${rows}`);
-
     const user = auth.currentUser;
     if (!user) {
       console.log("no user, cannot add");
@@ -72,20 +69,16 @@ export default function Home() {
       },
     );
 
-    setRows((rows) => [...rows, { ...row, id: docRef.id }]);
-    // setRows((rows) => [...rows, { ...row, id: Math.random() }]);
-    // setRows([...rows, { ...row, id: Math.random() }]);可能會讀到舊值>>stale state
-    // 改成functional updater
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        addDoc(collection(db, "users", user.uid, "transactions"), {
-          ...row,
-          createdAt: serverTimestamp(),
-        });
-        console.log("add row at:", serverTimestamp);
-      }
-    });
+    try {
+      await addDoc(collection(db, "users", user.uid, "transactions"), {
+        ...row,
+        createdAt: serverTimestamp(),
+      });
+      setRows((rows) => [...rows, { ...row, id: docRef.id }]);
+    } catch (error) {
+      if (error instanceof Error) console.log(error.message);
+      else console.log(error);
+    }
   };
 
   const deleteList = async (id: string) => {
