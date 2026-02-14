@@ -63,19 +63,14 @@ export default function Home() {
       return;
     }
 
-    const docRef = await addDoc(
-      collection(db, "users", user.uid, "transactions"),
-      {
-        ...row,
-        createdAt: serverTimestamp(),
-      },
-    );
-
     try {
-      await addDoc(collection(db, "users", user.uid, "transactions"), {
-        ...row,
-        createdAt: serverTimestamp(),
-      });
+      const docRef = await addDoc(
+        collection(db, "users", user.uid, "transactions"),
+        {
+          ...row,
+          createdAt: serverTimestamp(),
+        },
+      );
       setRows((rows) => [...rows, { ...row, id: docRef.id }]);
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
