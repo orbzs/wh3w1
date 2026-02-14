@@ -1,14 +1,56 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Form from "./component/Form";
 import List from "./component/List";
+import Logout from "./component/Logout";
+import { onAuthStateChanged, type User } from "firebase/auth";
+import {
+  doc,
+  getDocs,
+  addDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 import { Row } from "./types";
 import { NewRow } from "./types";
 
 export default function Home() {
+  // 驗證
+  const router = useRouter();
+
   const [rows, setRows] = useState<Row[]>([]); //直接變成空陣列會讓addList的setRows：類型 'any' 不可指派給類型 'never'。row.id：類型 'never' 沒有屬性 'id'。
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      console.log("please login or signup");
+      router.push("/");
+    } else {
+      console.log("user.uid: ", user.uid);
+      // const querySnapshot = await getDocs(
+      //   collection(db, "users", user.uid, "transactions"),
+      // );
+      // // 1
+      // querySnapshot.forEach((doc) => {
+      //   console.log(doc.id, " => ", doc.data());
+      // });
+      // // 2
+      // querySnapshot.forEach((docSnap) => {
+      //   const data = docSnap.data();
+      //   const row = { id: docSnap.id, ...data };
+      //   console.log(row);
+      // });
+      // // 3
+      // console.log("querySnapshot.docs =>", querySnapshot.docs);
+      // const rows = querySnapshot.docs.map((docSnap) => ({
+      //   id: docSnap.id,
+      //   ...docSnap.data(),
+      // }));
+      // console.log(rows);
+    }
+  });
 
   const addList = (row: NewRow) => {
     console.log(`row: ${row}`);
@@ -16,6 +58,16 @@ export default function Home() {
     setRows((rows) => [...rows, { ...row, id: Math.random() }]);
     // setRows([...rows, { ...row, id: Math.random() }]);可能會讀到舊值>>stale state
     // 改成functional updater
+
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     addDoc(collection(db, "users", user.uid, "transactions"), {
+    //       ...row,
+    //       createdAt: serverTimestamp(),
+    //     });
+    //     console.log("add row at:", serverTimestamp);
+    //   }
+    // });
   };
 
   const deleteList = (id: number) => {
@@ -27,23 +79,19 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-[linear-gradient(rgb(244,244,245)_98%,#d9ff416c)] relative bg-zinc-100 w-full h-full flex flex-col justify-center items-center">
-      <main className="  w-full h-full flex justify-start gap-16 items-center flex-col ">
-        <div className="pt-6 font-bold text-[22px] navboxshadow h-20 stragecolor w-full flex justify-center items-center justify-self-start">
+    <div className="relative flex h-full w-full flex-col items-center justify-center bg-zinc-100 bg-[linear-gradient(rgb(244,244,245)_98%,#d9ff416c)]">
+      <main className="flex h-full w-full flex-col items-center justify-start gap-16">
+        <div className="navboxshadow stragecolor flex h-20 w-full items-center justify-center justify-self-start pt-6 text-[22px] font-bold">
           記帳小工具
         </div>
-        <div className="hover:translate-y-[6px] ease-in-out transition-all duration-1600 rounded-[72px] stragecolor p-8 pt-10 min-h-80  min-w-80 w-13/24 flex justify-between items-center gap-3 flex-col">
+        <div className="stragecolor flex min-h-80 w-13/24 min-w-80 flex-col items-center justify-between gap-3 rounded-[72px] p-8 pt-10 transition-all duration-1600 ease-in-out hover:translate-y-[6px]">
           <Form addList={addList} />
-          <div className="overflow-y-auto  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full flex gap-2 flex-col justify-center w-full">
+          <div className="flex h-full w-full flex-col justify-center gap-2 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {rows.map((row) => {
               console.log(row);
               console.log(rows);
               return <List row={row} key={row.id} deleteList={deleteList} />;
             })}
-            {/* 看不懂
-          {rows.map(() => {
-            return <List />;
-          })} */}
           </div>
 
           <div className="py-4 font-semibold">
@@ -56,15 +104,9 @@ export default function Home() {
             }, 0)}
           </div>
         </div>
-        <div className="absolute bottom-1/8 left-1/12  hover:translate-y-[6px] transition-all ease-[cubic-bezier(0.4, 0, 1, 1)] duration-800 hover:text-zinc-300 hover:font-black ">
-          <div
-            className="bg-zinc-200 overflow group relative overflow-hidden rounded-full p-6 before:absolute before:top-full before:left-0 before:h-full
-before:w-full before:bg-neutral-800 before:transition-transform before:ease-in before:duration-500 hover:before:-translate-y-full
-"
-          >
-            <Link className="relative z-9 p-4 px-6 " href="/">
-              ← 返回首頁
-            </Link>
+        <div className="ease-[cubic-bezier(0.4, 0, 1, 1)] absolute bottom-1/8 left-1/12 transition-all duration-800 hover:translate-y-[6px] hover:font-black hover:text-zinc-300">
+          <div className="overflow group relative overflow-hidden rounded-full bg-zinc-200 p-6 before:absolute before:top-full before:left-0 before:h-full before:w-full before:bg-neutral-800 before:transition-transform before:duration-500 before:ease-in hover:before:-translate-y-full">
+            <Logout />
           </div>
         </div>
       </main>
